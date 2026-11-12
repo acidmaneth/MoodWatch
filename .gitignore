@@ -1,0 +1,19 @@
+.gradle/
+.kotlin/
+build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+/apks/
+
+# Built packages
+*.apk
+*.aab
+*.apks
+
+# Signing keys and their passwords
+keystore.properties
+*.jks
+*.keystore
+/release-keys/

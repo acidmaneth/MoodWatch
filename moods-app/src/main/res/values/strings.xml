@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moods</string>
+    <string name="complication_name">Moods NFT</string>
+    <string name="token_hint">Mood ID</string>
+    <string name="show_mood">Show this Mood</string>
+    <string name="refresh_now">Refresh now</string>
+    <string name="config_title">Choose Mood ID</string>
+    <string name="config_save">Use this Mood</string>
+    <string name="face_checking">Setting up watch face…</string>
+    <string name="face_unsupported">The Moods watch face needs Wear OS 6</string>
+    <string name="face_installed">Watch face installed ✓</string>
+    <string name="face_active">Moods is your watch face ✓</string>
+    <string name="face_no_slot">No free watch face slot</string>
+    <string name="face_how_to">Press and hold your watch face, swipe to Moods, then tap it.</string>
+    <string name="face_set_active">Set as watch face</string>
+    <string name="face_open_settings">Allow in settings</string>
+    <string name="face_retry">Try again</string>
+</resources>
