@@ -6,16 +6,20 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Network
 import android.util.Base64
+import android.util.Log
 import androidx.core.content.edit
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.min
 
 data class MoodInfo(
@@ -36,6 +40,12 @@ object MoodRepository {
     private const val TOKEN_URI_SELECTOR = "c87b56dd"
     private const val USER_AGENT = "Mozilla/5.0 (Linux; Wear OS) MoodWatch/1.0"
     private const val FACE_SIZE = 450
+    private const val RESIZE_URL = "https://wsrv.nl/?url="
+    private const val TAG = "MoodRepository"
+    private const val NO_LOAD = -1
+
+    /** The ID of the most recent [load] still in progress, or [NO_LOAD]. */
+    private val latestLoad = AtomicInteger(NO_LOAD)
 
     private const val PREFS = "moods"
     private const val KEY_TOKEN_ID = "token_id"
@@ -46,13 +56,10 @@ object MoodRepository {
     private const val KEY_IMAGE_TOKEN_ID = "image_token_id"
     private const val KEY_IMAGE_URL = "image_url"
     private const val KEY_CHECKED_AT = "checked_at"
+    private const val KEY_URI_PREFIX = "token_uri_prefix"
 
     fun tokenId(context: Context): Int =
         prefs(context).getInt(KEY_TOKEN_ID, DEFAULT_TOKEN_ID)
-
-    fun setTokenId(context: Context, tokenId: Int) {
-        prefs(context).edit { putInt(KEY_TOKEN_ID, tokenId) }
-    }
 
     fun imageFile(context: Context): File = File(context.filesDir, "mood.jpg")
 
@@ -90,58 +97,64 @@ object MoodRepository {
     }
 
     /**
+     * Switches to Mood [id]. The selected ID only changes once its image is saved, so the face
+     * keeps showing the current Mood while this loads, and an unknown ID changes nothing.
+     */
+    suspend fun load(context: Context, id: Int) {
+        latestLoad.set(id)
+        try {
+            fetch(context, id, onlyIfNewImage = false) { latestLoad.get() == id }
+        } finally {
+            latestLoad.compareAndSet(id, NO_LOAD)
+        }
+    }
+
+    /**
      * Fetches the selected Mood and saves its image. With [onlyIfNewImage], the image is only
      * downloaded when its URL differs from the saved one. Returns true if a new image was saved.
      */
-    suspend fun refresh(context: Context, onlyIfNewImage: Boolean = false): Boolean =
-        withContext(Dispatchers.IO) {
-            MoodNetwork.withInternet(context) { network ->
-                refreshOn(context, network, onlyIfNewImage)
-            }
-        }
-
-    private fun refreshOn(context: Context, network: Network?, onlyIfNewImage: Boolean): Boolean {
+    suspend fun refresh(context: Context, onlyIfNewImage: Boolean = false): Boolean {
         val id = tokenId(context)
-        val tokenUri = resolveUri(fetchTokenUri(id, network))
-        val metadata = fetchMetadata(tokenUri, network)
-        val imageUrl = metadata.optString("image").takeIf { it.isNotBlank() }
-            ?: throw IOException("Mood #$id has no image")
-
-        val p = prefs(context)
-        val sameImage = p.getInt(KEY_IMAGE_TOKEN_ID, -1) == id &&
-            p.getString(KEY_IMAGE_URL, null) == imageUrl &&
-            imageFile(context).exists()
-        if (onlyIfNewImage && sameImage) {
-            p.edit { putLong(KEY_CHECKED_AT, System.currentTimeMillis()) }
-            return false
+        return fetch(context, id, onlyIfNewImage) {
+            tokenId(context) == id && latestLoad.get().let { it == NO_LOAD || it == id }
         }
-
-        save(context, id, imageUrl, metadata, network)
-        return !sameImage
     }
 
-    private fun save(
+    /** [stillWanted] is checked right before saving, so a superseded fetch is dropped. */
+    private suspend fun fetch(
         context: Context,
         id: Int,
-        imageUrl: String,
-        metadata: JSONObject,
-        network: Network?,
-    ) {
-        val bitmap = downloadSquareBitmap(resolveUri(imageUrl), network)
+        onlyIfNewImage: Boolean,
+        stillWanted: () -> Boolean,
+    ): Boolean = withContext(Dispatchers.IO) {
+        MoodNetwork.withInternet(context) { network ->
+            val metadata = fetchMetadata(context, id, network)
+            val imageUrl = metadata.optString("image").takeIf { it.isNotBlank() }
+                ?: throw IOException("Mood #$id has no image")
 
-        synchronized(this) {
-            // A slower fetch for a previously selected ID must not overwrite the current one.
-            if (tokenId(context) != id) {
-                bitmap.recycle()
-                return
+            val p = prefs(context)
+            val sameImage = p.getInt(KEY_IMAGE_TOKEN_ID, -1) == id &&
+                p.getString(KEY_IMAGE_URL, null) == imageUrl &&
+                imageFile(context).exists()
+            if (onlyIfNewImage && sameImage) {
+                p.edit { putLong(KEY_CHECKED_AT, System.currentTimeMillis()) }
+                return@withInternet false
             }
-            val tmp = File(context.filesDir, "mood.jpg.tmp")
-            tmp.outputStream().use { bitmap.compress(Bitmap.CompressFormat.JPEG, 88, it) }
-            bitmap.recycle()
-            if (!tmp.renameTo(imageFile(context))) throw IOException("Could not save image")
-            saveInfo(context, id, imageUrl, metadata)
-        }
 
+            val jpeg = downloadFaceJpeg(resolveUri(imageUrl), network)
+            synchronized(this@MoodRepository) {
+                if (!stillWanted()) return@withInternet false
+                val tmp = File(context.filesDir, "mood.jpg.tmp")
+                tmp.writeBytes(jpeg)
+                if (!tmp.renameTo(imageFile(context))) throw IOException("Could not save image")
+                saveInfo(context, id, imageUrl, metadata)
+            }
+            requestFaceUpdate(context)
+            !sameImage
+        }
+    }
+
+    private fun requestFaceUpdate(context: Context) {
         ComplicationDataSourceUpdateRequester.create(
             context,
             ComponentName(context, MoodComplicationService::class.java),
@@ -158,6 +171,7 @@ object MoodRepository {
             updatedAt = System.currentTimeMillis(),
         )
         prefs(context).edit {
+            putInt(KEY_TOKEN_ID, id)
             putInt(KEY_IMAGE_TOKEN_ID, id)
             putString(KEY_IMAGE_URL, imageUrl)
             putString(KEY_NAME, info.name)
@@ -189,7 +203,26 @@ object MoodRepository {
         return decodeAbiString(result)
     }
 
-    private fun fetchMetadata(uri: String, network: Network?): JSONObject {
+    /**
+     * Token URIs are "<prefix><id>", so once the prefix is known from one chain lookup the
+     * metadata is fetched directly. Any failure on that path falls back to the chain.
+     */
+    private fun fetchMetadata(context: Context, id: Int, network: Network?): JSONObject {
+        prefs(context).getString(KEY_URI_PREFIX, null)?.let { prefix ->
+            try {
+                return fetchMetadataAt(prefix + id, network)
+            } catch (e: Exception) {
+                Log.i(TAG, "Direct metadata for #$id failed, asking the chain: ${e.message}")
+            }
+        }
+        val tokenUri = resolveUri(fetchTokenUri(id, network))
+        if (tokenUri.startsWith("http") && tokenUri.endsWith("/$id")) {
+            prefs(context).edit { putString(KEY_URI_PREFIX, tokenUri.removeSuffix("$id")) }
+        }
+        return fetchMetadataAt(tokenUri, network)
+    }
+
+    private fun fetchMetadataAt(uri: String, network: Network?): JSONObject {
         val dataPrefix = "data:application/json"
         if (uri.startsWith(dataPrefix)) {
             val payload = uri.substringAfter(",")
@@ -201,6 +234,32 @@ object MoodRepository {
             return JSONObject(json)
         }
         return JSONObject(String(httpGet(uri, network)))
+    }
+
+    /**
+     * The source images are 2048px and 2–5 MB, far too slow over the watch's Bluetooth or LTE
+     * link, so a 450px copy (~50 KB) comes from a resizing proxy, falling back to the original.
+     */
+    private fun downloadFaceJpeg(url: String, network: Network?): ByteArray {
+        if (url.startsWith("https://") || url.startsWith("http://")) {
+            val resized = RESIZE_URL + URLEncoder.encode(url, "UTF-8") +
+                "&w=$FACE_SIZE&h=$FACE_SIZE&fit=cover&output=jpg&q=88"
+            try {
+                val bytes = httpGet(resized, network)
+                val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+                if (bounds.outWidth == FACE_SIZE && bounds.outHeight == FACE_SIZE) return bytes
+                Log.w(TAG, "Resized image was ${bounds.outWidth}x${bounds.outHeight}")
+            } catch (e: IOException) {
+                Log.w(TAG, "Resized image failed, using the original: ${e.message}")
+            }
+        }
+        val bitmap = downloadSquareBitmap(url, network)
+        return ByteArrayOutputStream().use {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 88, it)
+            bitmap.recycle()
+            it.toByteArray()
+        }
     }
 
     private fun downloadSquareBitmap(url: String, network: Network?): Bitmap {

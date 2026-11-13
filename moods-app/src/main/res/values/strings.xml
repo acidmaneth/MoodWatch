@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Moods</string>
     <string name="complication_name">Moods NFT</string>
-    <string name="token_hint">Mood ID</string>
+    <string name="token_hint">Type a Mood ID</string>
     <string name="show_mood">Show this Mood</string>
     <string name="refresh_now">Refresh now</string>
     <string name="config_title">Choose Mood ID</string>

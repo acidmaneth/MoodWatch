@@ -7,8 +7,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
@@ -23,10 +25,12 @@ class MoodConfigActivity : ComponentActivity() {
     private lateinit var status: TextView
     private lateinit var tokenInput: EditText
     private lateinit var saveButton: Button
+    private lateinit var progress: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_config)
+        progress = findViewById(R.id.progress)
 
         preview = findViewById(R.id.preview)
         status = findViewById(R.id.status)
@@ -37,7 +41,7 @@ class MoodConfigActivity : ComponentActivity() {
         setResult(RESULT_OK)
 
         val current = MoodRepository.tokenId(this)
-        tokenInput.setText(current.toString())
+        // Left empty: the Wear number pad appends to existing text rather than replacing it.
         status.text = "Now showing #$current"
         MoodRepository.currentImageBytes(this)?.let {
             preview.setImageBitmap(BitmapFactory.decodeByteArray(it, 0, it.size))
@@ -63,29 +67,32 @@ class MoodConfigActivity : ComponentActivity() {
         getSystemService(InputMethodManager::class.java)
             ?.hideSoftInputFromWindow(tokenInput.windowToken, 0)
 
-        val previous = MoodRepository.tokenId(this)
-        if (id == previous && MoodRepository.currentImageBytes(this) != null) {
+        if (id == MoodRepository.tokenId(this) && MoodRepository.currentImageBytes(this) != null) {
             finish()
             return
         }
 
-        MoodRepository.setTokenId(this, id)
-        saveButton.isEnabled = false
+        setLoading(true)
         status.text = "Loading Moods #$id…"
         lifecycleScope.launch {
             try {
-                withTimeout(LOAD_TIMEOUT_MS) { MoodRepository.refresh(this@MoodConfigActivity) }
+                withTimeout(LOAD_TIMEOUT_MS) { MoodRepository.load(this@MoodConfigActivity, id) }
                 finish()
             } catch (e: MoodNotFoundException) {
-                MoodRepository.setTokenId(this@MoodConfigActivity, previous)
                 status.text = "Mood #$id not found"
-                saveButton.isEnabled = true
+                setLoading(false)
             } catch (e: Exception) {
-                // Slow or no network yet: keep the new ID and let the worker load it.
-                MoodRefreshWorker.refreshNow(this@MoodConfigActivity, replace = true)
+                // Slow or no network yet: the worker finishes switching to the new ID.
+                MoodRefreshWorker.refreshNow(this@MoodConfigActivity, replace = true, tokenId = id)
                 finish()
             }
         }
+    }
+
+    private fun setLoading(loading: Boolean) {
+        saveButton.isEnabled = !loading
+        tokenInput.isEnabled = !loading
+        progress.isVisible = loading
     }
 
     private companion object {

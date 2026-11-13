@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -34,6 +36,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var tokenInput: EditText
     private lateinit var saveButton: Button
     private lateinit var refreshButton: Button
+    private lateinit var progress: ProgressBar
     private var loadJob: Job? = null
     private var faceJob: Job? = null
     private var activateJob: Job? = null
@@ -58,8 +61,9 @@ class MainActivity : ComponentActivity() {
         tokenInput = findViewById(R.id.tokenInput)
         saveButton = findViewById(R.id.saveButton)
         refreshButton = findViewById(R.id.refreshButton)
+        progress = findViewById(R.id.progress)
 
-        tokenInput.setText(MoodRepository.tokenId(this).toString())
+        // Left empty: the Wear number pad appends to existing text rather than replacing it.
         tokenInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 saveAndRefresh()
@@ -179,25 +183,32 @@ class MainActivity : ComponentActivity() {
         }
         getSystemService(InputMethodManager::class.java)
             ?.hideSoftInputFromWindow(tokenInput.windowToken, 0)
-        MoodRepository.setTokenId(this, id)
-        refresh()
+        startLoad(id) { MoodRepository.load(this, id) }
     }
 
     private fun refresh() {
-        val id = MoodRepository.tokenId(this)
+        startLoad(MoodRepository.tokenId(this)) { MoodRepository.refresh(this) }
+    }
+
+    /** The current Mood stays on screen until [block] has saved the new one. */
+    private fun startLoad(id: Int, block: suspend () -> Unit) {
         loadJob?.cancel()
-        title.text = "Moods #$id"
+        progress.isVisible = true
         status.text = "Loading Moods #$id…"
         loadJob = lifecycleScope.launch {
             try {
-                MoodRepository.refresh(this@MainActivity)
+                block()
                 render()
+                tokenInput.text.clear()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: MoodNotFoundException) {
                 status.text = "Mood #$id not found"
+                tokenInput.text.clear()
             } catch (e: Exception) {
                 status.text = e.message ?: "Could not load Moods #$id"
+            } finally {
+                if (loadJob == coroutineContext.job) progress.isVisible = false
             }
         }
     }

@@ -41,6 +41,14 @@
             android:textColor="#B0B0B0"
             android:textSize="12sp" />
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/faceStatus"
             android:layout_width="wrap_content"

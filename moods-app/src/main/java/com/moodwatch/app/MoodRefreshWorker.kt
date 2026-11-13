@@ -6,6 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 
 /** A one-off refresh, used when no image is saved yet or today's drift window was missed. */
 class MoodRefreshWorker(context: Context, params: WorkerParameters) :
@@ -13,22 +14,33 @@ class MoodRefreshWorker(context: Context, params: WorkerParameters) :
 
     override suspend fun doWork(): Result =
         try {
-            MoodRepository.refresh(applicationContext)
+            val id = inputData.getInt(KEY_TOKEN_ID, -1)
+            if (id >= 0) {
+                MoodRepository.load(applicationContext, id)
+            } else {
+                MoodRepository.refresh(applicationContext)
+            }
             Result.success()
+        } catch (e: MoodNotFoundException) {
+            Result.failure()
         } catch (e: Exception) {
             if (runAttemptCount < 5) Result.retry() else Result.failure()
         }
 
     companion object {
         private const val NOW_WORK = "mood-refresh-now"
+        private const val KEY_TOKEN_ID = "token_id"
         private val LEGACY_WORK = listOf("daily-mood-refresh", "mood-refresh-daily")
 
         /**
-         * With [replace], a pending or running refresh (possibly for an older ID) is restarted.
+         * Refreshes the selected Mood, or switches to [tokenId] when given. With [replace], a
+         * pending or running refresh (possibly for an older ID) is restarted.
          * No network constraint, for the same reason as [DriftCheckWorker.enqueue].
          */
-        fun refreshNow(context: Context, replace: Boolean = false) {
-            val request = OneTimeWorkRequestBuilder<MoodRefreshWorker>().build()
+        fun refreshNow(context: Context, replace: Boolean = false, tokenId: Int? = null) {
+            val request = OneTimeWorkRequestBuilder<MoodRefreshWorker>()
+                .apply { if (tokenId != null) setInputData(workDataOf(KEY_TOKEN_ID to tokenId)) }
+                .build()
             val policy = if (replace) ExistingWorkPolicy.REPLACE else ExistingWorkPolicy.KEEP
             WorkManager.getInstance(context).enqueueUniqueWork(NOW_WORK, policy, request)
         }
