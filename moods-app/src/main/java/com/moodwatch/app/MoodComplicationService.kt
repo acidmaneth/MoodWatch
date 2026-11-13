@@ -17,10 +17,9 @@ import androidx.wear.watchface.complications.datasource.SuspendingComplicationDa
 class MoodComplicationService : SuspendingComplicationDataSourceService() {
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
-        val icon = MoodRepository.currentImageBytes(this)
-            ?.let { Icon.createWithData(it, 0, it.size) }
-            ?: Icon.createWithResource(this, R.drawable.mood_preview)
-        return build(type, icon, "Moods")
+        val bytes = MoodRepository.currentImageBytes(this)
+            ?: resources.openRawResource(R.drawable.mood_preview).use { it.readBytes() }
+        return build(type, bytes, "Moods")
     }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
@@ -34,10 +33,11 @@ class MoodComplicationService : SuspendingComplicationDataSourceService() {
             MoodRefreshWorker.refreshNow(this)
         }
         val name = MoodRepository.lastInfo(this)?.name ?: "Moods"
-        return build(request.complicationType, Icon.createWithData(bytes, 0, bytes.size), name)
+        return build(request.complicationType, bytes, name)
     }
 
-    private fun build(type: ComplicationType, icon: Icon, name: String): ComplicationData? {
+    private fun build(type: ComplicationType, jpeg: ByteArray, name: String): ComplicationData? {
+        val icon = Icon.createWithData(jpeg, 0, jpeg.size)
         val description = PlainComplicationText.Builder(name).build()
         val tap = PendingIntent.getActivity(
             this,
@@ -51,9 +51,15 @@ class MoodComplicationService : SuspendingComplicationDataSourceService() {
                     .setTapAction(tap)
                     .build()
 
+            // Photo complications have no always-on image, so the face asks for this type and
+            // shows the dimmed copy while ambient.
             ComplicationType.SMALL_IMAGE ->
                 SmallImageComplicationData.Builder(
-                    SmallImage.Builder(icon, SmallImageType.PHOTO).build(),
+                    SmallImage.Builder(icon, SmallImageType.PHOTO)
+                        .setAmbientImage(
+                            AmbientMood.jpeg(jpeg)?.let { Icon.createWithData(it, 0, it.size) },
+                        )
+                        .build(),
                     description,
                 ).setTapAction(tap).build()
 

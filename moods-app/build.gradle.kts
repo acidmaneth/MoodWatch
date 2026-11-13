@@ -22,8 +22,8 @@ android {
         applicationId = "com.moodwatch.app"
         minSdk = 33
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.8"
+        versionCode = 12
+        versionName = "1.11"
     }
 
     signingConfigs {
