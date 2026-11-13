@@ -22,8 +22,8 @@ android {
         applicationId = "com.moodwatch.app"
         minSdk = 33
         targetSdk = 36
-        versionCode = 12
-        versionName = "1.11"
+        versionCode = 13
+        versionName = "1.12"
     }
 
     signingConfigs {
@@ -59,6 +59,7 @@ kotlin {
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-ktx:1.9.3")
+    implementation("androidx.wear:wear:1.3.0")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1")
     implementation("androidx.wear.watchfacepush:watchfacepush:1.0.0")
     implementation("androidx.work:work-runtime-ktx:2.9.1")

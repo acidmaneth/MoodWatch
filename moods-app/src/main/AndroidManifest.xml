@@ -42,6 +42,11 @@
         </activity>
 
         <activity
+            android:name=".CollectionActivity"
+            android:exported="false"
+            android:label="@string/collection_title" />
+
+        <activity
             android:name=".MoodConfigActivity"
             android:exported="true"
             android:label="@string/config_title"

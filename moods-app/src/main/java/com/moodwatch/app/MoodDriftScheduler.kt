@@ -19,6 +19,7 @@ object MoodDriftScheduler {
     private val WINDOW_START: LocalTime = LocalTime.of(9, 0)
     private val WINDOW_END: LocalTime = LocalTime.of(9, 15)
     const val RETRY_INTERVAL_MS = 60_000L
+    private const val DRIFT_SETTLE_MS = 5 * 60_000L
 
     private const val PREFS = "moods_drift"
     private const val KEY_DONE_DATE = "done_date"
@@ -31,6 +32,12 @@ object MoodDriftScheduler {
 
     fun windowEnd(date: LocalDate = today()): Long =
         date.atTime(WINDOW_END).atZone(ZONE).toInstant().toEpochMilli()
+
+    /** Roughly when Moods last changed expression: the latest 9:05 AM Pacific before [now]. */
+    fun lastDriftAt(now: Long = System.currentTimeMillis()): Long {
+        val today = windowStart() + DRIFT_SETTLE_MS
+        return if (now >= today) today else windowStart(today().minusDays(1)) + DRIFT_SETTLE_MS
+    }
 
     fun isDoneToday(context: Context): Boolean =
         prefs(context).getString(KEY_DONE_DATE, null) == today().toString()

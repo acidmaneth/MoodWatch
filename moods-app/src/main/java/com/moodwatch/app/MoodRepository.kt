@@ -30,6 +30,13 @@ data class MoodInfo(
     val updatedAt: Long,
 )
 
+class MoodPreview(
+    val tokenId: Int,
+    val expression: String?,
+    val mood: String?,
+    val image: ByteArray,
+)
+
 class MoodNotFoundException(message: String) : IOException(message)
 
 object MoodRepository {
@@ -57,6 +64,11 @@ object MoodRepository {
     private const val KEY_IMAGE_URL = "image_url"
     private const val KEY_CHECKED_AT = "checked_at"
     private const val KEY_URI_PREFIX = "token_uri_prefix"
+    private const val KEY_SUPPLY = "total_supply"
+    private const val KEY_SUPPLY_AT = "total_supply_at"
+    private const val TOTAL_SUPPLY_SELECTOR = "18160ddd"
+    private const val FALLBACK_SUPPLY = 3333
+    private const val DAY_MS = 24 * 60 * 60 * 1000L
 
     fun tokenId(context: Context): Int =
         prefs(context).getInt(KEY_TOKEN_ID, DEFAULT_TOKEN_ID)
@@ -154,6 +166,48 @@ object MoodRepository {
         }
     }
 
+    /** Mood [id]'s traits and a [size]px image, without changing the selected Mood. */
+    suspend fun preview(context: Context, id: Int, size: Int): MoodPreview =
+        withContext(Dispatchers.IO) {
+            MoodNetwork.withInternet(context) { network ->
+                val metadata = fetchMetadata(context, id, network)
+                val imageUrl = metadata.optString("image").takeIf { it.isNotBlank() }
+                    ?: throw IOException("Mood #$id has no image")
+                val attributes = metadata.optJSONArray("attributes")
+                MoodPreview(
+                    tokenId = id,
+                    expression = attributes.trait("Expression"),
+                    mood = attributes.trait("Mood"),
+                    image = downloadFaceJpeg(resolveUri(imageUrl), network, size),
+                )
+            }
+        }
+
+    /** Mood IDs run from 1 to the contract's totalSupply(), re-read at most once a day. */
+    suspend fun totalSupply(context: Context): Int {
+        val p = prefs(context)
+        val cached = p.getInt(KEY_SUPPLY, 0)
+        if (cached > 0 && System.currentTimeMillis() - p.getLong(KEY_SUPPLY_AT, 0L) < DAY_MS) {
+            return cached
+        }
+        return try {
+            withContext(Dispatchers.IO) {
+                MoodNetwork.withInternet(context) { network ->
+                    val result = ethCall("0x$TOTAL_SUPPLY_SELECTOR", network)
+                    result.removePrefix("0x").toBigInteger(16).toInt()
+                }
+            }.also { supply ->
+                p.edit {
+                    putInt(KEY_SUPPLY, supply)
+                    putLong(KEY_SUPPLY_AT, System.currentTimeMillis())
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "totalSupply failed: ${e.message}")
+            if (cached > 0) cached else FALLBACK_SUPPLY
+        }
+    }
+
     private fun requestFaceUpdate(context: Context) {
         ComplicationDataSourceUpdateRequester.create(
             context,
@@ -184,6 +238,18 @@ object MoodRepository {
 
     private fun fetchTokenUri(tokenId: Int, network: Network?): String {
         val data = "0x$TOKEN_URI_SELECTOR" + tokenId.toString(16).padStart(64, '0')
+        val result = try {
+            ethCall(data, network)
+        } catch (e: RpcException) {
+            throw MoodNotFoundException("Mood #$tokenId not found (${e.message})")
+        }
+        if (result.length <= 2) throw MoodNotFoundException("Mood #$tokenId not found")
+        return decodeAbiString(result)
+    }
+
+    private class RpcException(message: String) : IOException(message)
+
+    private fun ethCall(data: String, network: Network?): String {
         val body = JSONObject()
             .put("jsonrpc", "2.0")
             .put("id", 1)
@@ -195,12 +261,8 @@ object MoodRepository {
                     .put("latest"),
             )
         val response = JSONObject(httpPost(RPC_URL, body.toString(), network))
-        response.optJSONObject("error")?.let {
-            throw MoodNotFoundException("Mood #$tokenId not found (${it.optString("message")})")
-        }
-        val result = response.optString("result")
-        if (result.length <= 2) throw MoodNotFoundException("Mood #$tokenId not found")
-        return decodeAbiString(result)
+        response.optJSONObject("error")?.let { throw RpcException(it.optString("message")) }
+        return response.optString("result")
     }
 
     /**
@@ -240,21 +302,21 @@ object MoodRepository {
      * The source images are 2048px and 2–5 MB, far too slow over the watch's Bluetooth or LTE
      * link, so a 450px copy (~50 KB) comes from a resizing proxy, falling back to the original.
      */
-    private fun downloadFaceJpeg(url: String, network: Network?): ByteArray {
+    private fun downloadFaceJpeg(url: String, network: Network?, size: Int = FACE_SIZE): ByteArray {
         if (url.startsWith("https://") || url.startsWith("http://")) {
             val resized = RESIZE_URL + URLEncoder.encode(url, "UTF-8") +
-                "&w=$FACE_SIZE&h=$FACE_SIZE&fit=cover&output=jpg&q=88"
+                "&w=$size&h=$size&fit=cover&output=jpg&q=88"
             try {
                 val bytes = httpGet(resized, network)
                 val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
                 BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
-                if (bounds.outWidth == FACE_SIZE && bounds.outHeight == FACE_SIZE) return bytes
+                if (bounds.outWidth == size && bounds.outHeight == size) return bytes
                 Log.w(TAG, "Resized image was ${bounds.outWidth}x${bounds.outHeight}")
             } catch (e: IOException) {
                 Log.w(TAG, "Resized image failed, using the original: ${e.message}")
             }
         }
-        val bitmap = downloadSquareBitmap(url, network)
+        val bitmap = downloadSquareBitmap(url, network, size)
         return ByteArrayOutputStream().use {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 88, it)
             bitmap.recycle()
@@ -262,12 +324,12 @@ object MoodRepository {
         }
     }
 
-    private fun downloadSquareBitmap(url: String, network: Network?): Bitmap {
+    private fun downloadSquareBitmap(url: String, network: Network?, size: Int): Bitmap {
         val bytes = httpGet(url, network)
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
         var sample = 1
-        while (min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= FACE_SIZE) sample *= 2
+        while (min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= size) sample *= 2
         val decoded = BitmapFactory.decodeByteArray(
             bytes, 0, bytes.size,
             BitmapFactory.Options().apply { inSampleSize = sample },
@@ -277,7 +339,7 @@ object MoodRepository {
         val cropped = Bitmap.createBitmap(
             decoded, (decoded.width - side) / 2, (decoded.height - side) / 2, side, side,
         )
-        val scaled = Bitmap.createScaledBitmap(cropped, FACE_SIZE, FACE_SIZE, true)
+        val scaled = Bitmap.createScaledBitmap(cropped, size, size, true)
         if (cropped !== decoded) decoded.recycle()
         if (scaled !== cropped) cropped.recycle()
         return scaled

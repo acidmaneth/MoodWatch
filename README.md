@@ -11,6 +11,7 @@ A Wear OS watch face that shows any **Moods** NFT from Robinhood Chain, full scr
 ## Features
 
 - **Any Mood:** pick any token from the [Moods collection](https://robin.etherscan.io/address/0xa6ebbdfcfeafdc7a5a778d6fe514f45bd0a0133d) by its number, right from the watch face editor.
+- **Collection:** save your favorite Moods and switch between them with one tap, or try a random one.
 - **Daily refresh:** Moods change expression every day at 9:00 AM Pacific. The watch checks every minute from 9:00 to 9:15 AM and stops once the new image arrives.
 - **Four bezel complications:** steps, battery, date, heart rate, or anything else your watch offers, styled after the stock Pixel faces.
 - **Always-on display:** a dimmed copy of your Mood stays visible, within Wear OS's always-on brightness limit.
@@ -59,6 +60,21 @@ adb shell appops set com.moodwatch.app SCHEDULE_EXACT_ALARM allow
 The face keeps showing your current Mood until the new one has loaded. A number that doesn't exist shows "not found" and changes nothing.
 
 To change the bezel complications, touch and hold the face, tap **Edit**, and tap any of the four corners.
+
+## Collection and Pick random
+
+<p align="center">
+  <img src="docs/collection.png" width="300" alt="Collection list">
+  &nbsp;&nbsp;
+  <img src="docs/main-buttons.png" width="300" alt="Collection, Pick random, and Add to Collection buttons">
+</p>
+
+- **Save a Mood:** open **Moods** and tap **Add to Collection** to save the Mood on your face. Tap it again to remove it.
+- **Switch:** tap **Collection**, then tap a thumbnail. The face changes to that Mood and the watch returns to the face. The current Mood has a ✓.
+- **Remove:** in the Collection, touch and hold a Mood, then tap **Remove**.
+- **Pick random:** tap **Pick random** to load a random Mood from the whole collection. If you like it, add it to your Collection.
+
+Thumbnails are saved on the watch, so the Collection opens instantly. After the daily 9:00 AM Pacific change, each thumbnail refreshes the next time you open the Collection.
 
 ## How it works
 

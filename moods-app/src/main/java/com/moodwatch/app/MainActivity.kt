@@ -37,6 +37,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var saveButton: Button
     private lateinit var refreshButton: Button
     private lateinit var progress: ProgressBar
+    private lateinit var collectionButton: Button
+    private lateinit var randomButton: Button
+    private lateinit var collectToggle: Button
     private var loadJob: Job? = null
     private var faceJob: Job? = null
     private var activateJob: Job? = null
@@ -62,6 +65,15 @@ class MainActivity : ComponentActivity() {
         saveButton = findViewById(R.id.saveButton)
         refreshButton = findViewById(R.id.refreshButton)
         progress = findViewById(R.id.progress)
+        collectionButton = findViewById(R.id.collectionButton)
+        randomButton = findViewById(R.id.randomButton)
+        collectToggle = findViewById(R.id.collectToggle)
+
+        collectionButton.setOnClickListener {
+            startActivity(Intent(this, CollectionActivity::class.java))
+        }
+        randomButton.setOnClickListener { pickRandom() }
+        collectToggle.setOnClickListener { toggleCollected() }
 
         // Left empty: the Wear number pad appends to existing text rather than replacing it.
         tokenInput.setOnEditorActionListener { _, actionId, _ ->
@@ -89,6 +101,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        render()
         syncFace()
     }
 
@@ -190,11 +203,44 @@ class MainActivity : ComponentActivity() {
         startLoad(MoodRepository.tokenId(this)) { MoodRepository.refresh(this) }
     }
 
-    /** The current Mood stays on screen until [block] has saved the new one. */
-    private fun startLoad(id: Int, block: suspend () -> Unit) {
+    /** Some IDs may be missing (e.g. burned), so a miss just rolls again. */
+    private fun pickRandom() {
+        startLoad(id = null) {
+            val supply = MoodRepository.totalSupply(this)
+            val current = MoodRepository.tokenId(this)
+            var miss: MoodNotFoundException? = null
+            repeat(RANDOM_TRIES) {
+                val id = (1..supply).random().let { if (it == current) it % supply + 1 else it }
+                try {
+                    MoodRepository.load(this, id)
+                    return@startLoad
+                } catch (e: MoodNotFoundException) {
+                    miss = e
+                }
+            }
+            throw miss!!
+        }
+    }
+
+    private fun toggleCollected() {
+        val id = MoodRepository.tokenId(this)
+        if (MoodCollection.contains(this, id)) {
+            MoodCollection.remove(this, id)
+        } else {
+            MoodCollection.add(this, id)
+            lifecycleScope.launch { MoodCollection.seedFromCurrent(this@MainActivity) }
+        }
+        renderCollection()
+    }
+
+    /**
+     * The current Mood stays on screen until [block] has saved the new one. [id] is the Mood
+     * being loaded, or null for a random pick.
+     */
+    private fun startLoad(id: Int?, block: suspend () -> Unit) {
         loadJob?.cancel()
         progress.isVisible = true
-        status.text = "Loading Moods #$id…"
+        status.text = if (id == null) getString(R.string.picking_random) else "Loading Moods #$id…"
         loadJob = lifecycleScope.launch {
             try {
                 block()
@@ -203,17 +249,28 @@ class MainActivity : ComponentActivity() {
             } catch (e: CancellationException) {
                 throw e
             } catch (e: MoodNotFoundException) {
-                status.text = "Mood #$id not found"
+                status.text = if (id == null) "No Mood found, try again" else "Mood #$id not found"
                 tokenInput.text.clear()
             } catch (e: Exception) {
-                status.text = e.message ?: "Could not load Moods #$id"
+                status.text = e.message ?: "Could not load the Mood"
             } finally {
                 if (loadJob == coroutineContext.job) progress.isVisible = false
             }
         }
     }
 
+    private fun renderCollection() {
+        val id = MoodRepository.tokenId(this)
+        collectionButton.text = getString(R.string.collection_button, MoodCollection.ids(this).size)
+        collectToggle.setText(
+            if (MoodCollection.contains(this, id)) R.string.collection_remove_current
+            else R.string.collection_add
+        )
+        collectToggle.isEnabled = MoodRepository.currentImageBytes(this) != null
+    }
+
     private fun render() {
+        renderCollection()
         val bytes = MoodRepository.currentImageBytes(this)
         if (bytes != null) {
             preview.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
@@ -237,5 +294,6 @@ class MainActivity : ComponentActivity() {
         const val FACE_PREFS = "face"
         const val KEY_AUTO_ACTIVATED = "auto_activated"
         const val KEY_PERMISSION_ASKED = "set_active_permission_asked"
+        const val RANDOM_TRIES = 3
     }
 }

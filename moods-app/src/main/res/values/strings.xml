@@ -16,4 +16,17 @@
     <string name="face_set_active">Set as watch face</string>
     <string name="face_open_settings">Allow in settings</string>
     <string name="face_retry">Try again</string>
+    <string name="collection_title">Collection</string>
+    <string name="collection_button">Collection (%d)</string>
+    <string name="collection_add">Add to Collection</string>
+    <string name="collection_remove_current">In Collection ✓ (remove)</string>
+    <string name="collection_hint">Tap to show · hold to remove</string>
+    <string name="collection_empty">No Moods saved yet. Tap “Add to Collection” in the Moods app to save the one on your face.</string>
+    <string name="collection_row_current">#%d ✓</string>
+    <string name="collection_remove">Remove</string>
+    <string name="collection_remove_confirm">Remove #%d from your Collection?</string>
+    <string name="collection_not_found">Mood #%d not found</string>
+    <string name="collection_load_failed">Couldn\'t load #%d. Try again.</string>
+    <string name="pick_random">Pick random</string>
+    <string name="picking_random">Picking a random Mood…</string>
 </resources>

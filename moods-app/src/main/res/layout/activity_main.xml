@@ -49,6 +49,25 @@
             android:indeterminate="true"
             android:visibility="gone" />
 
+        <Button
+            android:id="@+id/collectionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/randomButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/pick_random" />
+
+        <Button
+            android:id="@+id/collectToggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" />
+
         <TextView
             android:id="@+id/faceStatus"
             android:layout_width="wrap_content"
