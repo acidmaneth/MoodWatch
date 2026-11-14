@@ -22,8 +22,8 @@ android {
         applicationId = "com.moodwatch.app"
         minSdk = 33
         targetSdk = 36
-        versionCode = 13
-        versionName = "1.12"
+        versionCode = 19
+        versionName = "1.18"
     }
 
     signingConfigs {
@@ -42,6 +42,11 @@ android {
             isMinifyEnabled = false
             signingConfig = signingConfigs.findByName("upload") ?: signingConfigs.getByName("debug")
         }
+    }
+
+    // The app has no fragments. This check fires anyway on registerForActivityResult.
+    lint {
+        disable += "InvalidFragmentVersionForActivityResult"
     }
 
     compileOptions {

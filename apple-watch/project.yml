@@ -1,0 +1,131 @@
+name: MoodWatch
+
+options:
+  bundleIdPrefix: com.moodwatch
+  deploymentTarget:
+    watchOS: "10.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "4"
+    # Automatic signing; pick your (free) Apple ID team in Xcode for a real watch.
+    # Simulator builds are ad-hoc signed and need no team.
+    CODE_SIGN_STYLE: Automatic
+    "CODE_SIGN_IDENTITY[sdk=watchsimulator*]": "-"
+    ENABLE_PREVIEWS: YES
+    DEAD_CODE_STRIPPING: YES
+
+targets:
+  MoodWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: App
+      - path: Shared
+      # For the Debug-only widget gallery.
+      - path: Widget/MoodWidgetViews.swift
+      - path: Widget/Assets.xcassets
+    dependencies:
+      - target: MoodsWidget
+        embed: true
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Moods
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        WKApplication: true
+        WKWatchOnly: true
+        # Must match DriftScheduler.taskIdentifier, or the .appRefresh handler is rejected.
+        BGTaskSchedulerPermittedIdentifiers:
+          - com.moodwatch.app.drift-check
+        UIAppFonts:
+          - Fredoka-Bold.ttf
+          - Fredoka-Medium.ttf
+    entitlements:
+      path: App/MoodWatch.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.moodwatch.app
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moodwatch.app.watch
+        PRODUCT_NAME: Moods
+        PRODUCT_MODULE_NAME: MoodWatch
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  MoodsWidget:
+    type: app-extension
+    platform: watchOS
+    sources:
+      - path: Widget
+      - path: Shared
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Moods
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        UIAppFonts:
+          - Fredoka-Bold.ttf
+          - Fredoka-Medium.ttf
+    entitlements:
+      path: Widget/MoodsWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.moodwatch.app
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moodwatch.app.watch.widget
+        PRODUCT_NAME: MoodsWidget
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+
+  MoodWatchUITests:
+    type: bundle.ui-testing
+    platform: watchOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: MoodWatch
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moodwatch.app.watch.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: MoodWatch
+
+schemes:
+  MoodWatch:
+    build:
+      targets:
+        MoodWatch: all
+        MoodsWidget: all
+        MoodWatchUITests: [test]
+    test:
+      config: Debug
+      targets:
+        - MoodWatchUITests
+    run:
+      config: Debug
+      executable: MoodWatch
+    archive:
+      config: Release
+  MoodsWidget:
+    build:
+      targets:
+        MoodsWidget: all
+        MoodWatch: all
+    run:
+      config: Debug
+      executable: MoodWatch
+      environmentVariables:
+        _XCWidgetKind: MoodsWidget
+        _XCWidgetFamily: accessoryRectangular

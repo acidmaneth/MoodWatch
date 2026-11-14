@@ -7,6 +7,12 @@ local.properties
 .DS_Store
 /apks/
 
+# Apple Watch: the Xcode project is generated from apple-watch/project.yml by XcodeGen
+apple-watch/build/
+apple-watch/MoodWatch.xcodeproj/
+*.xcuserstate
+xcuserdata/
+
 # Built packages
 *.apk
 *.aab

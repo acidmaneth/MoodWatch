@@ -10,9 +10,10 @@ A Wear OS watch face that shows any **Moods** NFT from Robinhood Chain, full scr
 
 ## Features
 
-- **Any Mood:** pick any token from the [Moods collection](https://robin.etherscan.io/address/0xa6ebbdfcfeafdc7a5a778d6fe514f45bd0a0133d) by its number, right from the watch face editor.
+- **Any Mood:** pick any token from the [Moods collection](https://robin.etherscan.io/address/0xa6ebbdfcfeafdc7a5a778d6fe514f45bd0a0133d) by its number. No wallet needed.
 - **Collection:** save your favorite Moods and switch between them with one tap, or try a random one.
 - **Daily refresh:** Moods change expression every day at 9:00 AM Pacific. The watch checks every minute from 9:00 to 9:15 AM and stops once the new image arrives.
+- **Date and time:** the day and date sit at the top, and the time sits at the bottom, both in Fredoka.
 - **Four bezel complications:** steps, battery, date, heart rate, or anything else your watch offers, styled after the stock Pixel faces.
 - **Always-on display:** a dimmed copy of your Mood stays visible, within Wear OS's always-on brightness limit.
 - **One install:** the Moods app installs the watch face itself, using Wear OS's Watch Face Push.
@@ -20,6 +21,16 @@ A Wear OS watch face that shows any **Moods** NFT from Robinhood Chain, full scr
 
 <p align="center">
   <img src="docs/always-on.png" width="700" alt="Simulated always-on view of several Moods">
+</p>
+
+## Apple Watch
+
+There's also an Apple Watch version in [`apple-watch/`](apple-watch/README.md): a Moods app with the same full-screen face, Collection and Pick random, plus complications for any watch face that has slots. Apple doesn't allow third-party watch faces, so you build it with Xcode and install it yourself.
+
+<p align="center">
+  <img src="docs/apple-watch/face.png" width="200" alt="Moods on Apple Watch">
+  &nbsp;&nbsp;
+  <img src="docs/apple-watch/complication.png" width="200" alt="Moods complications on an Apple Watch face">
 </p>
 
 ## Requirements

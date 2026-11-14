@@ -21,8 +21,8 @@ android {
         applicationId = facePackage
         minSdk = 34
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.4"
+        versionCode = 11
+        versionName = "1.10"
     }
 
     // Watch Face Push requires its own signing key, separate from the app's upload key.
