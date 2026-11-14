@@ -112,7 +112,7 @@ The original Mood images are 2048 px and 2–5 MB, which is slow over a watch's 
 Requirements: Android Studio, or a JDK 17+ and the Android SDK (API 36).
 
 ```sh
-git clone https://github.com/<you>/MoodWatch.git
+git clone https://github.com/acidmaneth/MoodWatch.git
 cd MoodWatch
 # Point Gradle at the Android SDK, e.g.:
 echo "sdk.dir=$HOME/Library/Android/sdk" > local.properties
