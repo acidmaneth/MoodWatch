@@ -26,7 +26,7 @@ LABEL_START = 15        # label start, degrees past the quadrant axis
 GAUGE_END = 75          # gauge end, degrees past the quadrant axis
 TRACK = "#66000000"
 WHITE = "#FFFFFFFF"
-SHADOW = '<Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">'
+SHADOW = '<Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">'
 # Icon halo: (grow in px on each side, color) for each translucent copy, and its y offset.
 ICON_HALO = ((6, "#14000000"), (5, "#1A000000"), (4, "#21000000"), (3, "#29000000"),
              (2, "#33000000"), (1, "#3D000000"))

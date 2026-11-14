@@ -23,19 +23,22 @@
                 <PartImage x="0" y="0" width="450" height="450">
                     <Variant mode="AMBIENT" target="alpha" value="0" />
                     <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                    <Launch target="com.moodwatch.app/com.moodwatch.app.MainActivity" />
                 </PartImage>
                 <PartImage x="0" y="0" width="450" height="450" alpha="0">
                     <Variant mode="AMBIENT" target="alpha" value="255" />
                     <Image resource="[COMPLICATION.SMALL_IMAGE_AMBIENT]" />
+                    <Launch target="com.moodwatch.app/com.moodwatch.app.MainActivity" />
                 </PartImage>
             </Complication>
             <Complication type="EMPTY">
                 <PartText x="75" y="250" width="300" height="40">
                     <Text align="CENTER">
                         <Font family="fredoka_bold" size="24" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#E6000000" offsetX="0" offsetY="3" radius="16">Open Moods app</Shadow>
+                            <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">Open Moods app</Shadow>
                         </Font>
                     </Text>
+                    <Launch target="com.moodwatch.app/com.moodwatch.app.MainActivity" />
                 </PartText>
             </Complication>
         </ComplicationSlot>
@@ -151,7 +154,7 @@
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="292.59" endAngle="324.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -252,7 +255,7 @@
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="292.59" endAngle="324.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -340,7 +343,7 @@
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="290.795" endAngle="346.795" direction="CLOCKWISE" align="CENTER" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -451,7 +454,7 @@
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="22.59" endAngle="54.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -552,7 +555,7 @@
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="22.59" endAngle="54.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -640,7 +643,7 @@
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="20.795" endAngle="76.795" direction="CLOCKWISE" align="CENTER" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -751,7 +754,7 @@
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="234.59" endAngle="202.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -852,7 +855,7 @@
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="234.59" endAngle="202.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -940,7 +943,7 @@
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="256.795" endAngle="200.795" direction="COUNTER_CLOCKWISE" align="CENTER" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -1051,7 +1054,7 @@
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="144.59" endAngle="112.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -1152,7 +1155,7 @@
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="144.59" endAngle="112.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -1240,7 +1243,7 @@
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="166.795" endAngle="110.795" direction="COUNTER_CLOCKWISE" align="CENTER" ellipsis="TRUE">
                         <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#D9000000" offsetX="0" offsetY="2" radius="14">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
                         </Font>
@@ -1262,22 +1265,24 @@
                 <PartText x="70" y="350" width="310" height="68">
                     <Text align="CENTER">
                         <Font family="fredoka_bold" size="58" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#E6000000" offsetX="0" offsetY="3" radius="16">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">
                                 <Template>%s:%s<Parameter expression="[HOUR_0_23_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
                         </Font>
                     </Text>
+                    <Launch target="com.moodwatch.app/com.moodwatch.app.MainActivity" />
                 </PartText>
             </Compare>
             <Default>
                 <PartText x="70" y="350" width="310" height="68">
                     <Text align="CENTER">
                         <Font family="fredoka_bold" size="58" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#E6000000" offsetX="0" offsetY="3" radius="16">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">
                                 <Template>%s:%s<Parameter expression="[HOUR_1_12_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
                         </Font>
                     </Text>
+                    <Launch target="com.moodwatch.app/com.moodwatch.app.MainActivity" />
                 </PartText>
             </Default>
         </Condition>
@@ -1285,11 +1290,12 @@
         <PartText x="55" y="32" width="340" height="40">
             <Text align="CENTER">
                 <Font family="fredoka_bold" size="28" weight="BOLD" color="#FFFFFFFF">
-                    <Shadow color="#E6000000" offsetX="0" offsetY="3" radius="16">
+                    <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">
                         <Template>%s, %s %s<Parameter expression="[DAY_OF_WEEK_S]" /><Parameter expression="[MONTH_S]" /><Parameter expression="[DAY]" /></Template>
                     </Shadow>
                 </Font>
             </Text>
+            <Launch target="com.moodwatch.app/com.moodwatch.app.MainActivity" />
         </PartText>
     </Scene>
 </WatchFace>
