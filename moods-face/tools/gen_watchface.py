@@ -15,7 +15,7 @@ F = os.path.join(os.path.dirname(__file__), "..", "src", "main", "res", "raw", "
 
 R = 207                 # ring radius shared by gauges, text and icons
 GAUGE = 12              # gauge thickness
-FONT = 20
+FONT = 18
 ICON = 22
 TEXT_UP_D = 414         # TextCircular diameters, measured on the watch to center
 TEXT_DOWN_D = 422       # 20px text on the ring (the two directions sit differently)

@@ -2,5 +2,10 @@
 <resources>
     <style name="Theme.Moods" parent="@android:style/Theme.DeviceDefault">
         <item name="android:fontFamily">@font/mood_font</item>
+        <item name="android:buttonStyle">@style/Widget.Moods.Button</item>
+    </style>
+
+    <style name="Widget.Moods.Button" parent="@android:style/Widget.DeviceDefault.Button">
+        <item name="android:textSize">11sp</item>
     </style>
 </resources>

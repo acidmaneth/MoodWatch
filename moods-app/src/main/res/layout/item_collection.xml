@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="#B0B0B0"
-            android:textSize="12sp" />
+            android:textSize="9sp" />
     </LinearLayout>
 
     <ProgressBar

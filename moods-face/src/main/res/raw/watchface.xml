@@ -153,7 +153,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="292.59" endAngle="324.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -254,7 +254,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="292.59" endAngle="324.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -342,7 +342,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="290.795" endAngle="346.795" direction="CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -453,7 +453,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="22.59" endAngle="54.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -554,7 +554,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="22.59" endAngle="54.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -642,7 +642,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="20.795" endAngle="76.795" direction="CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -753,7 +753,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="234.59" endAngle="202.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -854,7 +854,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="234.59" endAngle="202.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -942,7 +942,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="256.795" endAngle="200.795" direction="COUNTER_CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1053,7 +1053,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="144.59" endAngle="112.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1154,7 +1154,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="144.59" endAngle="112.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1242,7 +1242,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="166.795" endAngle="110.795" direction="COUNTER_CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="18" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1264,7 +1264,7 @@
             <Compare expression="is24Hour">
                 <PartText x="70" y="318" width="310" height="132">
                     <Text align="CENTER">
-                        <Font family="mood_font" size="58" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="40" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                                 <Template>%s:%s<Parameter expression="[HOUR_0_23_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
@@ -1276,7 +1276,7 @@
             <Default>
                 <PartText x="70" y="318" width="310" height="132">
                     <Text align="CENTER">
-                        <Font family="mood_font" size="58" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="40" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                                 <Template>%s:%s<Parameter expression="[HOUR_1_12_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
@@ -1289,7 +1289,7 @@
 
         <PartText x="55" y="8" width="340" height="88">
             <Text align="CENTER">
-                <Font family="mood_font" size="24" weight="NORMAL" color="#FFFFFFFF">
+                <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                     <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                         <Template>%s, %s %s<Parameter expression="[DAY_OF_WEEK_S]" /><Parameter expression="[MONTH_S]" /><Parameter expression="[DAY]" /></Template>
                     </Shadow>
