@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Moods" parent="@android:style/Theme.DeviceDefault">
-        <item name="android:fontFamily">@font/fredoka_bold</item>
+        <item name="android:fontFamily">@font/mood_font</item>
     </style>
 </resources>

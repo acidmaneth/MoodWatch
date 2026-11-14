@@ -34,7 +34,7 @@
             <Complication type="EMPTY">
                 <PartText x="75" y="250" width="300" height="40">
                     <Text align="CENTER">
-                        <Font family="fredoka_bold" size="24" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="24" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">Open Moods app</Shadow>
                         </Font>
                     </Text>
@@ -63,14 +63,14 @@
             <Complication type="RANGED_VALUE">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="333" endAngle="345">
-                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333)" />
+                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="333" endAngle="333">
-                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333)" />
-                        <Transform target="endAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333) + (345 - (clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
+                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333)" />
+                        <Transform target="endAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333) + (345 - (clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -153,7 +153,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="292.59" endAngle="324.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -164,14 +164,14 @@
             <Complication type="GOAL_PROGRESS">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="333" endAngle="345">
-                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333)" />
+                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="333" endAngle="333">
-                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333)" />
-                        <Transform target="endAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333) + (345 - (clamp(295.59 + textLength([COMPLICATION.TEXT]) * 4.0, 292.59, 333))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
+                        <Transform target="startAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333)" />
+                        <Transform target="endAngle" value="clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333) + (345 - (clamp(295.59 + textLength([COMPLICATION.TEXT]) * 5.0, 292.59, 333))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -254,7 +254,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="292.59" endAngle="324.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -264,7 +264,7 @@
             </Complication>
             <Complication type="SHORT_TEXT">
                 <Group name="Icon ring" x="0" y="2" width="450" height="450">
-                    <Transform target="angle" value="314.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="314.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="208" y="1" width="34" height="34" angle="0">
                             <PartImage x="0" y="0" width="34" height="34" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -327,7 +327,7 @@
                         </Group>
                 </Group>
                 <Group name="Icon ring" x="0" y="0" width="450" height="450">
-                    <Transform target="angle" value="314.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="314.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="214" y="7" width="22" height="22" angle="0">
                             <PartImage x="0" y="0" width="22" height="22" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -342,7 +342,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="290.795" endAngle="346.795" direction="CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -363,14 +363,14 @@
             <Complication type="RANGED_VALUE">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="63" endAngle="75">
-                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63)" />
+                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="63" endAngle="63">
-                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63)" />
-                        <Transform target="endAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63) + (75 - (clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
+                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63)" />
+                        <Transform target="endAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63) + (75 - (clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -453,7 +453,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="22.59" endAngle="54.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -464,14 +464,14 @@
             <Complication type="GOAL_PROGRESS">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="63" endAngle="75">
-                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63)" />
+                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="63" endAngle="63">
-                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63)" />
-                        <Transform target="endAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63) + (75 - (clamp(25.59 + textLength([COMPLICATION.TEXT]) * 4.0, 22.59, 63))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
+                        <Transform target="startAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63)" />
+                        <Transform target="endAngle" value="clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63) + (75 - (clamp(25.59 + textLength([COMPLICATION.TEXT]) * 5.0, 22.59, 63))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -554,7 +554,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="22.59" endAngle="54.59" direction="CLOCKWISE" align="START" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -564,7 +564,7 @@
             </Complication>
             <Complication type="SHORT_TEXT">
                 <Group name="Icon ring" x="0" y="2" width="450" height="450">
-                    <Transform target="angle" value="44.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="44.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="208" y="1" width="34" height="34" angle="0">
                             <PartImage x="0" y="0" width="34" height="34" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -627,7 +627,7 @@
                         </Group>
                 </Group>
                 <Group name="Icon ring" x="0" y="0" width="450" height="450">
-                    <Transform target="angle" value="44.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="44.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="214" y="7" width="22" height="22" angle="0">
                             <PartImage x="0" y="0" width="22" height="22" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -642,7 +642,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="414" height="414"
                         startAngle="20.795" endAngle="76.795" direction="CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -663,14 +663,14 @@
             <Complication type="RANGED_VALUE">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="243" endAngle="255">
-                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243)" />
+                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="243" endAngle="243">
-                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243)" />
-                        <Transform target="endAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243) + (255 - (clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
+                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243)" />
+                        <Transform target="endAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243) + (255 - (clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -753,7 +753,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="234.59" endAngle="202.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -764,14 +764,14 @@
             <Complication type="GOAL_PROGRESS">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="243" endAngle="255">
-                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243)" />
+                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="243" endAngle="243">
-                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243)" />
-                        <Transform target="endAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243) + (255 - (clamp(205.59 + textLength([COMPLICATION.TEXT]) * 4.0, 202.59, 243))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
+                        <Transform target="startAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243)" />
+                        <Transform target="endAngle" value="clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243) + (255 - (clamp(205.59 + textLength([COMPLICATION.TEXT]) * 5.0, 202.59, 243))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -854,7 +854,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="234.59" endAngle="202.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -864,7 +864,7 @@
             </Complication>
             <Complication type="SHORT_TEXT">
                 <Group name="Icon ring" x="0" y="2" width="450" height="450">
-                    <Transform target="angle" value="224.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="224.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="208" y="1" width="34" height="34" angle="180">
                             <PartImage x="0" y="0" width="34" height="34" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -927,7 +927,7 @@
                         </Group>
                 </Group>
                 <Group name="Icon ring" x="0" y="0" width="450" height="450">
-                    <Transform target="angle" value="224.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="224.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="214" y="7" width="22" height="22" angle="180">
                             <PartImage x="0" y="0" width="22" height="22" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -942,7 +942,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="256.795" endAngle="200.795" direction="COUNTER_CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -963,14 +963,14 @@
             <Complication type="RANGED_VALUE">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="143" endAngle="155">
-                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143)" />
+                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="143" endAngle="143">
-                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143)" />
-                        <Transform target="endAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143) + (155 - (clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
+                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143)" />
+                        <Transform target="endAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143) + (155 - (clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143))) * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -1053,7 +1053,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="144.59" endAngle="112.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1064,14 +1064,14 @@
             <Complication type="GOAL_PROGRESS">
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="143" endAngle="155">
-                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143)" />
+                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143)" />
                         <Stroke color="#66000000" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
                 <PartDraw x="0" y="0" width="450" height="450">
                     <Arc centerX="225" centerY="225" width="414" height="414" startAngle="143" endAngle="143">
-                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143)" />
-                        <Transform target="endAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143) + (155 - (clamp(115.59 + textLength([COMPLICATION.TEXT]) * 4.0, 112.59, 143))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
+                        <Transform target="startAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143)" />
+                        <Transform target="endAngle" value="clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143) + (155 - (clamp(115.59 + textLength([COMPLICATION.TEXT]) * 5.0, 112.59, 143))) * clamp([COMPLICATION.GOAL_PROGRESS_VALUE] / [COMPLICATION.GOAL_PROGRESS_TARGET], 0, 1)" />
                         <Stroke color="#FFFFFFFF" thickness="12" cap="ROUND" />
                     </Arc>
                 </PartDraw>
@@ -1154,7 +1154,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="144.59" endAngle="112.59" direction="COUNTER_CLOCKWISE" align="END" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1164,7 +1164,7 @@
             </Complication>
             <Complication type="SHORT_TEXT">
                 <Group name="Icon ring" x="0" y="2" width="450" height="450">
-                    <Transform target="angle" value="134.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="134.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="208" y="1" width="34" height="34" angle="180">
                             <PartImage x="0" y="0" width="34" height="34" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -1227,7 +1227,7 @@
                         </Group>
                 </Group>
                 <Group name="Icon ring" x="0" y="0" width="450" height="450">
-                    <Transform target="angle" value="134.25 - textLength([COMPLICATION.TEXT]) * 2.0" />
+                    <Transform target="angle" value="134.25 - textLength([COMPLICATION.TEXT]) * 2.5" />
                         <Group name="Icon" x="214" y="7" width="22" height="22" angle="180">
                             <PartImage x="0" y="0" width="22" height="22" renderMode="MASK">
                                 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
@@ -1242,7 +1242,7 @@
                 <PartText x="0" y="0" width="450" height="450">
                     <TextCircular centerX="225" centerY="225" width="422" height="422"
                         startAngle="166.795" endAngle="110.795" direction="COUNTER_CLOCKWISE" align="CENTER" ellipsis="TRUE">
-                        <Font family="fredoka_bold" size="20" weight="BOLD" color="#FFFFFFFF">
+                        <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">
                                 <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
                             </Shadow>
@@ -1262,10 +1262,10 @@
                 <Expression name="is24Hour">[IS_24_HOUR_MODE] == 1</Expression>
             </Expressions>
             <Compare expression="is24Hour">
-                <PartText x="70" y="350" width="310" height="68">
+                <PartText x="70" y="318" width="310" height="132">
                     <Text align="CENTER">
-                        <Font family="fredoka_bold" size="58" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">
+                        <Font family="mood_font" size="58" weight="NORMAL" color="#FFFFFFFF">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                                 <Template>%s:%s<Parameter expression="[HOUR_0_23_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
                         </Font>
@@ -1274,10 +1274,10 @@
                 </PartText>
             </Compare>
             <Default>
-                <PartText x="70" y="350" width="310" height="68">
+                <PartText x="70" y="318" width="310" height="132">
                     <Text align="CENTER">
-                        <Font family="fredoka_bold" size="58" weight="BOLD" color="#FFFFFFFF">
-                            <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">
+                        <Font family="mood_font" size="58" weight="NORMAL" color="#FFFFFFFF">
+                            <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                                 <Template>%s:%s<Parameter expression="[HOUR_1_12_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
                         </Font>
@@ -1287,10 +1287,10 @@
             </Default>
         </Condition>
 
-        <PartText x="55" y="32" width="340" height="40">
+        <PartText x="55" y="8" width="340" height="88">
             <Text align="CENTER">
-                <Font family="fredoka_bold" size="28" weight="BOLD" color="#FFFFFFFF">
-                    <Shadow color="#FF000000" offsetX="0" offsetY="5" radius="28">
+                <Font family="mood_font" size="24" weight="NORMAL" color="#FFFFFFFF">
+                    <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                         <Template>%s, %s %s<Parameter expression="[DAY_OF_WEEK_S]" /><Parameter expression="[MONTH_S]" /><Parameter expression="[DAY]" /></Template>
                     </Shadow>
                 </Font>

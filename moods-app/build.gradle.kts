@@ -61,6 +61,18 @@ kotlin {
     }
 }
 
+// @font/mood_font is Brice when its commercially licensed file is in the git-ignored
+// private-fonts/ folder, and Fredoka (SIL OFL) otherwise.
+val privateFont = rootProject.file("private-fonts/Brice-SemiBoldSemiExpanded.otf")
+val moodFontRes = layout.buildDirectory.dir("generated/moodFont/res")
+val syncMoodFont = tasks.register<Sync>("syncMoodFont") {
+    from(if (privateFont.isFile) privateFont else rootProject.file("third_party/fredoka/Fredoka-Bold.ttf"))
+    into(moodFontRes.map { it.dir("font") })
+    rename { "mood_font." + it.substringAfterLast('.') }
+}
+android.sourceSets.getByName("main").res.srcDir(moodFontRes)
+tasks.named("preBuild") { dependsOn(syncMoodFont) }
+
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-ktx:1.9.3")

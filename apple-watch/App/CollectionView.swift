@@ -102,6 +102,7 @@ struct CollectionRow: View {
                         .font(MoodFont.text(13))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                 }
             }
 

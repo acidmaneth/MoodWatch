@@ -19,7 +19,7 @@ FONT = 20
 ICON = 22
 TEXT_UP_D = 414         # TextCircular diameters, measured on the watch to center
 TEXT_DOWN_D = 422       # 20px text on the ring (the two directions sit differently)
-CHAR_DEG = 4.0          # approximate advance of one Fredoka Bold character on the ring, in degrees
+CHAR_DEG = 5.0          # approximate advance of one mood_font character on the ring, in degrees
 ICON_DEG = round(math.degrees(ICON / R), 2)
 GAP_DEG = 1.5           # icon-to-text gap
 LABEL_START = 15        # label start, degrees past the quadrant axis
@@ -95,7 +95,7 @@ def text(start, end, bottom, align):
     return f"""{IND}<PartText x="0" y="0" width="450" height="450">
 {IND}    <TextCircular centerX="225" centerY="225" width="{d}" height="{d}"
 {IND}        startAngle="{fmt(start)}" endAngle="{fmt(end)}" direction="{direction}" align="{align}" ellipsis="TRUE">
-{IND}        <Font family="fredoka_bold" size="{FONT}" weight="BOLD" color="{WHITE}">
+{IND}        <Font family="mood_font" size="{FONT}" weight="NORMAL" color="{WHITE}">
 {IND}            {SHADOW}
 {IND}                <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
 {IND}            </Shadow>

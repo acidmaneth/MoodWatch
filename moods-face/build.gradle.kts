@@ -21,8 +21,8 @@ android {
         applicationId = facePackage
         minSdk = 34
         targetSdk = 36
-        versionCode = 12
-        versionName = "1.11"
+        versionCode = 15
+        versionName = "1.14"
     }
 
     // Watch Face Push requires its own signing key, separate from the app's upload key.
@@ -59,3 +59,15 @@ android {
         includeInBundle = false
     }
 }
+
+// @font/mood_font is Brice when its commercially licensed file is in the git-ignored
+// private-fonts/ folder, and Fredoka (SIL OFL) otherwise.
+val privateFont = rootProject.file("private-fonts/Brice-SemiBoldSemiExpanded.otf")
+val moodFontRes = layout.buildDirectory.dir("generated/moodFont/res")
+val syncMoodFont = tasks.register<Sync>("syncMoodFont") {
+    from(if (privateFont.isFile) privateFont else rootProject.file("third_party/fredoka/Fredoka-Bold.ttf"))
+    into(moodFontRes.map { it.dir("font") })
+    rename { "mood_font." + it.substringAfterLast('.') }
+}
+android.sourceSets.getByName("main").res.srcDir(moodFontRes)
+tasks.named("preBuild") { dependsOn(syncMoodFont) }

@@ -23,3 +23,5 @@ keystore.properties
 *.jks
 *.keystore
 /release-keys/
+# Commercially licensed fonts, used only in local builds
+/private-fonts/

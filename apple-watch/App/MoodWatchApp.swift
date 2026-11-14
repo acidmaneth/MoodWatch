@@ -7,7 +7,7 @@ struct MoodWatchApp: App {
     var body: some Scene {
         WindowGroup {
             FaceView()
-                .fontDesign(.rounded)
+                .fontDesign(MoodFont.systemDesign)
                 .environmentObject(model)
         }
         .backgroundTask(.appRefresh(DriftScheduler.taskIdentifier)) {

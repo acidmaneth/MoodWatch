@@ -124,6 +124,12 @@ adb install -r moods-app/build/outputs/apk/debug/moods-app-debug.apk
 
 The build also builds `moods-face`, checks it with Google's Watch Face Push validator (`tools/validator-push-cli-*.jar`), and bundles it into the app. A face that fails validation stops the build.
 
+### Fonts
+
+Builds use [Fredoka](third_party/fredoka/OFL.txt) (SIL Open Font License) by default.
+
+The faces were designed with Brice SemiBold SemiExpanded, a commercial font by Studio Sun (Cahya Sofyan). It isn't included in this repo or in the release APK. To use it, get a license for Brice yourself, then put its `Brice-SemiBoldSemiExpanded.otf` file in a `private-fonts/` folder at the repo root and rebuild. Both the Android and Apple Watch builds use it automatically. Git ignores `private-fonts/`, so the font is never committed.
+
 ### Release builds
 
 Release builds read signing keys from `keystore.properties`, which git ignores. See [`keystore.properties.example`](keystore.properties.example). The face is signed with its own key, as Watch Face Push requires. Without that file, release builds fall back to the debug key.

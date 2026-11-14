@@ -47,6 +47,12 @@ targets:
         UIAppFonts:
           - Fredoka-Bold.ttf
           - Fredoka-Medium.ttf
+          - Brice-SemiBoldSemiExpanded.otf
+    postBuildScripts:
+      - name: Bundle private fonts
+        path: scripts/copy-private-fonts.sh
+        shell: /bin/bash
+        basedOnDependencyAnalysis: false
     entitlements:
       path: App/MoodWatch.entitlements
       properties:
@@ -57,6 +63,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.moodwatch.app.watch
         PRODUCT_NAME: Moods
         PRODUCT_MODULE_NAME: MoodWatch
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
 
@@ -77,6 +84,12 @@ targets:
         UIAppFonts:
           - Fredoka-Bold.ttf
           - Fredoka-Medium.ttf
+          - Brice-SemiBoldSemiExpanded.otf
+    postBuildScripts:
+      - name: Bundle private fonts
+        path: scripts/copy-private-fonts.sh
+        shell: /bin/bash
+        basedOnDependencyAnalysis: false
     entitlements:
       path: Widget/MoodsWidget.entitlements
       properties:
@@ -87,6 +100,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.moodwatch.app.watch.widget
         PRODUCT_NAME: MoodsWidget
         SKIP_INSTALL: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
         APPLICATION_EXTENSION_API_ONLY: YES
 
   MoodWatchUITests:

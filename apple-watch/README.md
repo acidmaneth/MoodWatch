@@ -35,6 +35,7 @@ To keep the app on screen like a face, set it to stay open (see [Keep Moods on s
 - Xcode 15 or newer, with the watchOS SDK and a watchOS simulator runtime. The project uses the Swift 6 language mode and is tested with Xcode 27.2 and watchOS 27.2.
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen), which generates the Xcode project from `project.yml`.
 - To run on a watch: watchOS 10 or newer, an iPhone paired with the watch, and an Apple ID (a free one works).
+- Optional: the commercial Brice font. The app uses Fredoka unless you add Brice yourself; see [Fonts](../README.md#fonts).
 
 ## Build and run in the simulator
 
