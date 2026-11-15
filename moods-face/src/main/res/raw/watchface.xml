@@ -1264,7 +1264,7 @@
             <Compare expression="is24Hour">
                 <PartText x="70" y="318" width="310" height="132">
                     <Text align="CENTER">
-                        <Font family="mood_font" size="40" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="46" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                                 <Template>%s:%s<Parameter expression="[HOUR_0_23_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
@@ -1276,7 +1276,7 @@
             <Default>
                 <PartText x="70" y="318" width="310" height="132">
                     <Text align="CENTER">
-                        <Font family="mood_font" size="40" weight="NORMAL" color="#FFFFFFFF">
+                        <Font family="mood_font" size="46" weight="NORMAL" color="#FFFFFFFF">
                             <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
                                 <Template>%s:%s<Parameter expression="[HOUR_1_12_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
                             </Shadow>
@@ -1287,7 +1287,7 @@
             </Default>
         </Condition>
 
-        <PartText x="55" y="8" width="340" height="88">
+        <PartText x="55" y="20" width="340" height="88">
             <Text align="CENTER">
                 <Font family="mood_font" size="20" weight="NORMAL" color="#FFFFFFFF">
                     <Shadow color="#FF000000" offsetX="0" offsetY="3" radius="20">
