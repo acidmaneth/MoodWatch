@@ -14,18 +14,21 @@ import os
 F = os.path.join(os.path.dirname(__file__), "..", "src", "main", "res", "raw", "watchface.xml")
 
 R = 207                 # ring radius shared by gauges, text and icons
-GAUGE = 12              # gauge thickness
+GAUGE = 14              # stock Pixel arc thickness
 FONT = 18
 ICON = 22
 TEXT_UP_D = 414         # TextCircular diameters, measured on the watch to center
 TEXT_DOWN_D = 422       # 20px text on the ring (the two directions sit differently)
-CHAR_DEG = 5.0          # approximate advance of one mood_font character on the ring, in degrees
+CHAR_DEG = 3.3          # approximate advance of one system-font character on the ring, in degrees
 ICON_DEG = round(math.degrees(ICON / R), 2)
 GAP_DEG = 1.5           # icon-to-text gap
 LABEL_START = 15        # label start, degrees past the quadrant axis
 GAUGE_END = 75          # gauge end, degrees past the quadrant axis
-TRACK = "#66000000"
+TRACK = "#33FFFFFF"     # stock Pixel gauge track: white at 20% opacity
 WHITE = "#FFFFFFFF"
+BAND = "#40000000"      # 25% black behind each bezel complication
+BAND_THICK = 22         # wraps the icon and text
+BAND_PAD = 0            # the round caps cover the ends of the icon and text
 SHADOW = '<Shadow color="#FF000000" offsetX="0" offsetY="4" radius="26">'
 # Icon halo: (grow in px on each side, color) for each translucent copy, and its y offset.
 ICON_HALO = ((6, "#14000000"), (5, "#1A000000"), (4, "#21000000"), (3, "#29000000"),
@@ -95,7 +98,7 @@ def text(start, end, bottom, align):
     return f"""{IND}<PartText x="0" y="0" width="450" height="450">
 {IND}    <TextCircular centerX="225" centerY="225" width="{d}" height="{d}"
 {IND}        startAngle="{fmt(start)}" endAngle="{fmt(end)}" direction="{direction}" align="{align}" ellipsis="TRUE">
-{IND}        <Font family="mood_font" size="{FONT}" weight="NORMAL" color="{WHITE}">
+{IND}        <Font family="SYNC_TO_DEVICE" size="{FONT}" weight="BOLD" color="{WHITE}">
 {IND}            {SHADOW}
 {IND}                <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
 {IND}            </Shadow>
@@ -105,13 +108,17 @@ def text(start, end, bottom, align):
 """
 
 
-def arc(start, end, color, transforms=""):
+def arc(start, end, color, transforms="", thickness=GAUGE, radius=R):
     return f"""{IND}<PartDraw x="0" y="0" width="450" height="450">
-{IND}    <Arc centerX="225" centerY="225" width="{2 * R}" height="{2 * R}" startAngle="{fmt(start)}" endAngle="{fmt(end)}">
-{transforms}{IND}        <Stroke color="{color}" thickness="{GAUGE}" cap="ROUND" />
+{IND}    <Arc centerX="225" centerY="225" width="{2 * radius}" height="{2 * radius}" startAngle="{fmt(start)}" endAngle="{fmt(end)}">
+{transforms}{IND}        <Stroke color="{color}" thickness="{thickness}" cap="ROUND" />
 {IND}    </Arc>
 {IND}</PartDraw>
 """
+
+
+def band(start, end, transforms=""):
+    return arc(start, end, BAND, transforms, BAND_THICK)
 
 
 def gauge_layout(axis, end, frac):
@@ -124,7 +131,8 @@ def gauge_layout(axis, end, frac):
     track_t = f'{IND}        <Transform target="startAngle" value="{gauge_start}" />\n'
     fill_t = (track_t + f'{IND}        <Transform target="endAngle" '
               f'value="{gauge_start} + ({fmt(end)} - ({gauge_start})) * {frac}" />\n')
-    return (arc(end - 12, end, TRACK, track_t)
+    return (band(axis + LABEL_START - BAND_PAD, end + BAND_PAD)
+            + arc(end - 12, end, TRACK, track_t)
             + arc(end - 12, end - 12, WHITE, fill_t)
             + icon(fmt(icon_at), bottom)
             # Text runs clockwise away from the icon; in the bottom half that's its end.
@@ -137,7 +145,11 @@ def centered_layout(axis):
     mid = axis + 45
     icon_at = f"{fmt(mid - GAP_DEG / 2)} - {TEXT_LEN} * {CHAR_DEG / 2}"
     text_mid = mid + (ICON_DEG + GAP_DEG) / 2
-    return icon(icon_at, bottom) + text(text_mid - 28, text_mid + 28, bottom, "CENTER")
+    half = f"{TEXT_LEN} * {CHAR_DEG / 2} + {fmt((ICON_DEG + GAP_DEG) / 2 + BAND_PAD)}"
+    band_t = (f'{IND}        <Transform target="startAngle" value="{fmt(mid)} - ({half})" />\n'
+              f'{IND}        <Transform target="endAngle" value="{fmt(mid)} + {half}" />\n')
+    return (band(mid, mid, band_t) + icon(icon_at, bottom)
+            + text(text_mid - 28, text_mid + 28, bottom, "CENTER"))
 
 
 def slot(name, sid, provider, ptype, axis, end):
@@ -147,7 +159,7 @@ def slot(name, sid, provider, ptype, axis, end):
             isCustomizable="TRUE">
             <DefaultProviderPolicy defaultSystemProvider="{provider}"
                 defaultSystemProviderType="{ptype}" />
-            <BoundingArc centerX="225" centerY="225" width="440" height="440" thickness="90"
+            <BoundingArc centerX="225" centerY="225" width="450" height="450" thickness="95"
                 startAngle="{axis + 2}" endAngle="{axis + 88}" />
             <Complication type="RANGED_VALUE">
 {gauge_layout(axis, end, RANGED)}            </Complication>
@@ -166,6 +178,8 @@ HEADER = """<!--
             the bezel ring (radius 207). Ranged and goal values show the icon and value 15 degrees
             past the quadrant's axis with a gauge running on to 75 degrees (155 on the lower right,
             to clear the time); short text shows the icon and value centered in the quadrant.
+            Labels use the watch's own font (SYNC_TO_DEVICE), the same one as the stock faces,
+            each on a thin 25% black band so it stays readable over any Mood.
             Each slot spans the whole face so everything is drawn in face coordinates; the
             BoundingArc is the tap/edit area and also clips drawing.
         -->
